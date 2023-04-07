@@ -1,17 +1,20 @@
 <?php 
 
-require __FILE__ . "/Base/BaseResponse.php";
+require $_SERVER['DOCUMENT_ROOT'] . "/Model/Base/BaseResponse.php";
 
 class Response extends BaseResponse {
     
-    public $response = [
+    public static $response = [
         'status' => '',
         "result" => ''
     ];
 
-    public static function getHttpCodeMessage($code) 
+    public static function getHttpCodeMessage($code, $message = null) 
     {
         Response::$response['status'] = $code;
+        if (!empty($message)) {
+            Response::$response['result'] = $message;
+        }
         Response::$response['result'] = Response::getHttpCodeResult($code);
         return Response::$response;
     }

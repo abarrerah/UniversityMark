@@ -38,6 +38,10 @@ body {
   display: none;
 }
 
+.disabled {
+  pointer-events: none;
+}
+
 @media screen and (max-width: 600px) {
   .topnav a:not(:first-child) {display: none;}
   .topnav a.icon {
@@ -64,10 +68,9 @@ body {
 <body>
 
 <div class="topnav" id="myTopnav">
-  <a href="#home" class="active">Home</a>
-  <a href="#news">News</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
+  <a href="/index.php" class="active disabled">UniversityMark</a>
+  <a href="/index.php/user/login">Login</a>
+  <a href="/index.php/user/regist">Register</a>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     <i class="fa fa-bars"></i>
   </a>
