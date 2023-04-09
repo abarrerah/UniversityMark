@@ -19,10 +19,10 @@ class MarkController extends BaseController
             $userModel = $user->getUser($_SESSION['email']);
             
             $markModel = new MarkModel();
-            $userId = ArrayHelper::getValue($userModel, 'id');
-            $totalMark = $markModel->getAllMarksFromUser($userId);
-            $countMark = $markModel->countAllMarksFromUser($userId);
-            $avgMark = $markModel->averageMarksFromUser($userId);
+            $studentId = ArrayHelper::getValue($userModel, 'id');
+            $totalMark = $markModel->getAllMarksFromUser($studentId);
+            $countMark = $markModel->countAllMarksFromUser($studentId);
+            $avgMark = $markModel->averageMarksFromUser($studentId);
 
             echo $viewModel->render([
                 'totalMark' => $totalMark,
@@ -50,7 +50,7 @@ class MarkController extends BaseController
                 $userModel = $user->getUser($_SESSION['email']);
                 if (!empty($params) && !empty($userModel)) {
                     $markParams = [
-                        'userId' => ArrayHelper::getValue($userModel, 'id'),
+                        'studentId' => ArrayHelper::getValue($userModel, 'id'),
                         'mark' => ArrayHelper::getValue($params, 'mark')
                     ];
                     $markModel = new MarkModel();

@@ -4,43 +4,43 @@ require_once PROJECT_ROOT_PATH . "/Model/Base/Database/Database.php";
 
 class BaseMarkModel extends Database
 {
-    private $userId;
+    private $studentId;
     private $mark;
 
     public function load($body = [])
     {
         if (!empty($body)) {
-            $this->userId = $body['userId'];
+            $this->studentId = $body['studentId'];
             $this->mark = $body['mark'];
         }
     }
     
-    public function getAllMarksFromUser($userId)
+    public function getAllMarksFromUser($studentId)
     {
-        $queryString = "SELECT mark FROM marks WHERE user_id = '{$userId}'";
+        $queryString = "SELECT mark FROM marks WHERE student_id = '{$studentId}'";
         $query = $this->select($queryString);
         return $query;
     }
 
-    public function countAllMarksFromUser($userId)
+    public function countAllMarksFromUser($studentId)
     {
-        $queryString = "SELECT COUNT(user_id) as totalCounts FROM marks WHERE user_id = '{$userId}' ";
+        $queryString = "SELECT COUNT(student_id) as totalCounts FROM marks WHERE student_id = '{$studentId}' ";
         $query = $this->select($queryString);
         return $query[0];
     }
 
-    public function averageMarksFromUser($userId)
+    public function averageMarksFromUser($studentId)
     {
-        $queryString = "SELECT AVG(mark) as avgMarks FROM marks WHERE user_id = '{$userId}' ";
+        $queryString = "SELECT AVG(mark) as avgMarks FROM marks WHERE student_id = '{$studentId}' ";
         $query = $this->select($queryString);
         return $query[0];
     }
 
     public function save()
     {
-        $userId = $this->userId;
+        $studentId = $this->studentId;
         $mark = $this->mark;
-        $queryString = "INSERT INTO marks (user_id, mark) VALUES ('$userId', '$mark')";
+        $queryString = "INSERT INTO marks (student_id, mark) VALUES ('$studentId', '$mark')";
         $query = $this->selectSave($queryString);
         return json_encode($query);
     }
