@@ -14,6 +14,45 @@ class UserController extends BaseController
         echo $viewModel->render([]);
     }
 
+    public function signinAction()
+    {
+        session_start();
+        $params = $_POST;
+        try {
+            $email = ArrayHelper::getValue($params, 'email');
+            $recievedPassword = ArrayHelper::getValue($params, 'password');
+            $userModel = new UserModel();
+            $userExist = $userModel->userExists($email);
+            if ($userExist) {
+                $user = $userModel->getUser($email);
+                $userPassword = ArrayHelper::getValue($user, 'password');
+                $checkPassword = password_verify($recievedPassword, $userPassword);
+                if ($checkPassword) {
+                    setcookie("user$email", $email, time() + (86400 * 30));
+                    $_SESSION['email'] = $email;
+                    echo json_encode(Response::getHttpCodeMessage(200));
+                } else {
+                    $_SESSION['message'] = "Login failed. Wrong password.";
+                    echo json_encode(Response::getHttpCodeMessage(403));
+                }
+            } else {
+                $_SESSION['message'] = "Login Failed. User not Found.";
+                echo json_encode(Response::getHttpCodeMessage(403));
+            }
+
+        } catch(Exception $e){
+            echo json_encode(Response::getHttpCodeMessage(http_response_code(), $e->getMessage()));
+        }
+    }
+
+    public function logoutAction()
+    {
+        if (isset($_COOKIE["user"]) AND isset($_COOKIE["pass"])){
+            setcookie("user", '', time() - (86400 * 30));
+            setcookie("pass", '', time() - (86400 * 30));
+        }
+    }
+
     public function registAction()
     {
         try {
@@ -28,8 +67,9 @@ class UserController extends BaseController
     public function registerAction()
     {
         $params = $_POST;
-        $email = ArrayHelper::getValue($params, 'email');
+        
         try {
+            $email = ArrayHelper::getValue($params, 'email');
             $userModel = new UserModel();
 
             $userExist = $userModel->userExists($email);

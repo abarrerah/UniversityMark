@@ -6,12 +6,30 @@ require __DIR__ . "/Helpers/ArrayHelper.php";
 $parseUri = ArrayHelper::getValue($_SERVER, 'REQUEST_URI');
 $uri = parse_url($parseUri, PHP_URL_PATH);
 $uri = explode( '/', $uri );
-if ((isset($uri[2]) && $uri[2] != 'user') || !isset($uri[3])) {
+
+
+$validUri = [
+    'user' => ' user',
+    'mark' => 'mark'
+];
+
+$key = ArrayHelper::getValue($validUri, $uri[2]);
+if ((isset($uri[2]) && empty($key)) || !isset($uri[3])) {
     header("HTTP/1.1 404 Not Found");
     exit();
 }
-require PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
-$objFeedController = new UserController();
+
+switch ($key) {
+    default:
+        require_once PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
+        $objFeedController = new UserController();
+        break;
+    case 'mark':
+        require_once PROJECT_ROOT_PATH . "/Controller/Api/MarkController.php";
+        $objFeedController = new MarkController();  
+        break;    
+}
+
 $strMethodName = $uri[3] . 'Action';
 $objFeedController->{$strMethodName}();
 ?>

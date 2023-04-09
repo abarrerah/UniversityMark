@@ -29,6 +29,13 @@ class BaseUserModel Extends Database
         return $query[0]['exists'];
     }
 
+    public function getUser($email)
+    {
+        $queryString = "SELECT * FROM student WHERE email = '{$email}'";
+        $query = $this->select($queryString);
+        return $query[0];
+    }
+
     public function save()
     {
         $name = $this->name;

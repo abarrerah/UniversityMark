@@ -78,7 +78,7 @@
             <input type="checkbox" id="termsAndConditions" class="form-check-input" required />
             <label class="form-check-label" for="termsAndConditions">Checking out you are ACCEPTING our <a href="#">TERMS and CONDITIONS</a></label>
         </div>
-        <button id="register-submit-button" type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+        <button id="register-submit-button" type="submit" class="btn btn-primary btn-block mb-4 col-sm-6">Sign up</button>
     </div>
 </body>
 
